@@ -5,13 +5,7 @@ function App() {
 
   const [datos, setDatos] = useState([])
   const [listaTarefas, setListaTarefas] = useState([])
-
-  useEffect(
-    ()=>{
-      fetch("http://localhost:8000/tarefa/").then(reaccionParaResposta)
-    },
-    []
-  )
+  const [procesoActual, setProcesoActual] = useState("Iniciando aplicación")
 
   useEffect(
     ()=>{
@@ -21,12 +15,30 @@ function App() {
     [datos]
   )
 
+  useEffect(
+    actualizaDatos,
+    []
+  )
+
+  function actualizaDatos(){
+    setProcesoActual("Obtendo a lista de tarefas")
+    fetch("http://localhost:8000/tarefa/")
+      .then(reaccionParaResposta)
+      .catch(reaccionParaErrorAccedendoDatos)
+  }
+
   function reaccionParaResposta(resposta){
     resposta.json().then(reaccionParaNovosDatos)
   }
 
   function reaccionParaNovosDatos(novosDatos){
     setDatos(novosDatos)
+  }
+
+  function reaccionParaErrorAccedendoDatos(error){
+    setDatos([])
+    setProcesoActual("Non foi posible obter as tarefas. Reintentando nuns segundos.")
+    setTimeout(actualizaDatos,2000)
   }
 
   function HTMLparaTarefa(tarefa){
@@ -41,11 +53,11 @@ function App() {
   return (
     <main>
       <h1>React - Express</h1>
-      { datos.length === 0 && <p>Esperando datos...</p>}
+      { datos.length === 0 && <p>{procesoActual}</p>}
       { datos.length > 0 && listaTarefas}
     </main>
   );
-  
+
 }
 
 export default App;
