@@ -8,16 +8,16 @@ function App() {
   const [procesoActual, setProcesoActual] = useState("Iniciando aplicación")
 
   useEffect(
+    actualizaDatos,
+    []
+  )
+
+  useEffect(
     ()=>{
       const novaLista = datos.map(HTMLparaTarefa)
       setListaTarefas(novaLista)
     },
     [datos]
-  )
-
-  useEffect(
-    actualizaDatos,
-    []
   )
 
   function actualizaDatos(){
