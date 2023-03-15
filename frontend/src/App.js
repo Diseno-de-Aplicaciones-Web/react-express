@@ -1,25 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import "./index.css"
+import { useEffect, useState } from "react";
 
 function App() {
+
+  const [datos, setDatos] = useState([])
+  const [listaTarefas, setListaTarefas] = useState([])
+
+  useEffect(
+    ()=>{
+      fetch("http://localhost:8000/tarefa/").then(reaccionParaResposta)
+    },
+    []
+  )
+
+  useEffect(
+    ()=>{
+      const novaLista = datos.map(HTMLparaTarefa)
+      setListaTarefas(novaLista)
+    },
+    [datos]
+  )
+
+  function reaccionParaResposta(resposta){
+    resposta.json().then(reaccionParaNovosDatos)
+  }
+
+  function reaccionParaNovosDatos(novosDatos){
+    setDatos(novosDatos)
+  }
+
+  function HTMLparaTarefa(tarefa){
+    return(
+      <label key={tarefa.id}>
+        {tarefa.descripcion}
+        <input type="checkbox" checked={tarefa.rematada}/>
+      </label>
+    )
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main>
+      <h1>React - Express</h1>
+      { datos.length === 0 && <p>Esperando datos...</p>}
+      { datos.length > 0 && listaTarefas}
+    </main>
   );
+  
 }
 
 export default App;
