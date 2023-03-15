@@ -1,16 +1,19 @@
 import "./index.css"
 import { useEffect, useState } from "react";
+import AmosarTarefas from "./components/AmosarTarefas";
 
 function App() {
 
-  const [datos, setDatos] = useState([])
+  const [tarefas, setDatos] = useState([])
 
   useEffect(
-    ()=>{
-      fetch("http://localhost:8000/tarefa/").then(reaccionParaResposta)
-    },
+    obterTareasActualizadas,
     []
   )
+
+  function obterTareasActualizadas(){
+    fetch("http://localhost:8000/tarefa/").then(reaccionParaResposta)
+  }
 
   function reaccionParaResposta(resposta){
     resposta.json().then(reaccionParaNovosDatos)
@@ -23,11 +26,7 @@ function App() {
   return (
     <main>
       <h1>React - Express</h1>
-      {
-        datos.map(
-          tarefa=><p key={tarefa.id}>{tarefa.descripcion} <input type="checkbox" checked={tarefa.rematada}/></p>
-        )
-      }
+      <AmosarTarefas tarefas={tarefas}/>
     </main>
   );
 
