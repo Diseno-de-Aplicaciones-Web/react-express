@@ -5,7 +5,7 @@ import EngadirTarefa from "./components/EngadirTarefa";
 
 function App() {
 
-  const [tarefas, setDatos] = useState([])
+  const [tarefas, setTarefas] = useState([])
 
   useEffect(
     obterTarefasActualizadas,
@@ -21,7 +21,7 @@ function App() {
   }
 
   function reaccionParaNovosDatos(novosDatos){
-    setDatos(novosDatos)
+    setTarefas(novosDatos)
   }
 
   return (

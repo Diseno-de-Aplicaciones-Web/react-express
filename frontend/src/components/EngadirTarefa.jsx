@@ -9,22 +9,28 @@ function EngadirTarefa({funcionActualizarTarefas}) {
     }
 
     function manejadorClick(){
+
+        const selloDeTempo = Date.now()
+
+        const obxetoTarefa = {
+            id: selloDeTempo,
+            descripcion: descripcion,
+            rematada: false,
+        }
+
+        const JSONTarefa = JSON.stringify(obxetoTarefa)
+
         fetch(
             "http://localhost:8000/tarefa/",
             {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(
-                    {
-                        id: Date.now(),
-                        descripcion: descripcion,
-                        rematada: false,
-                    }
-                ),
+                body: JSONTarefa,
             }
         )
         .then(reaccionRespostaAPI)
         .catch(reaccionErrorConexion)
+
     }
 
     function reaccionRespostaAPI(resposta) {
