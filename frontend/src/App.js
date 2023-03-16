@@ -1,17 +1,18 @@
 import "./index.css"
 import { useEffect, useState } from "react";
 import AmosarTarefas from "./components/AmosarTarefas";
+import EngadirTarefa from "./components/EngadirTarefa";
 
 function App() {
 
   const [tarefas, setDatos] = useState([])
 
   useEffect(
-    obterTareasActualizadas,
+    obterTarefasActualizadas,
     []
   )
 
-  function obterTareasActualizadas(){
+  function obterTarefasActualizadas(){
     fetch("http://localhost:8000/tarefa/").then(reaccionParaResposta)
   }
 
@@ -26,6 +27,7 @@ function App() {
   return (
     <main>
       <h1>React - Express</h1>
+      <EngadirTarefa funcionActualizarTarefas={obterTarefasActualizadas}/>
       <AmosarTarefas tarefas={tarefas}/>
     </main>
   );
